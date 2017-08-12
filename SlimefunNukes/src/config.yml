@@ -17,6 +17,7 @@ nuke1:
   fire: false
   radius: 10
   sphere-shape: true
+  radioactive: true
 nuke2:
   name: '&7N&euk&7e &8(Medium power)'
   messages:
@@ -33,6 +34,7 @@ nuke2:
   fire: false
   radius: 20
   sphere-shape: true
+  radioactive: true
 nuke3:
   name: '&7N&euk&7e &8(High power)'
   messages:
@@ -49,6 +51,7 @@ nuke3:
   fire: true
   radius: 30
   sphere-shape: true
+  radioactive: true
 nuke4:
   name: '&7N&euk&7e &8(Huge power)'
   messages:
@@ -65,6 +68,7 @@ nuke4:
   fire: true
   radius: 40
   sphere-shape: true
+  radioactive: true
 air-strike:
   name: '&9Air Strike &bBeacon'
   messages:
@@ -81,3 +85,4 @@ air-strike:
   fire: true
   radius: 10
   sphere-shape: true
+  radioactive: false

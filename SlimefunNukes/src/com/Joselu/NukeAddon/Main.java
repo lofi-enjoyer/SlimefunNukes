@@ -74,7 +74,17 @@ public class Main extends JavaPlugin {
     	
         Category NUKES = new Category(new CustomItem(new ItemStack(Material.TNT), "&aSlimeFun &eN&7uk&ees", new String[] { "", "&a > Click to open" }));
         
-        if (config.getBoolean("nuke1.radioactive")) {
+        new SlimefunItem(NUKES, nuke1, "Nuke1", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.TINY_URANIUM, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.LEAD_INGOT, new ItemStack(Material.IRON_BLOCK), SlimefunItems.LEAD_INGOT }).register();
+			
+		new SlimefunItem(NUKES, nuke2, "Nuke2", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.SMALL_URANIUM, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.LEAD_INGOT, new ItemStack(Material.GOLD_BLOCK), SlimefunItems.LEAD_INGOT }).register();
+			
+		new SlimefunItem(NUKES, nuke3, "Nuke3", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { SlimefunItems.BILLON_INGOT, new ItemStack(Material.REDSTONE_LAMP_OFF), SlimefunItems.BILLON_INGOT, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.URANIUM, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.BILLON_INGOT, new ItemStack(Material.GOLD_BLOCK), SlimefunItems.BILLON_INGOT }).register();
+			
+		new SlimefunItem(NUKES, nuke4, "Nuke4", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.OBSIDIAN), new ItemStack(Material.REDSTONE_LAMP_OFF), new ItemStack(Material.OBSIDIAN), new ItemStack(Material.QUARTZ_BLOCK), SlimefunItems.NUCLEAR_REACTOR, new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.OBSIDIAN), new ItemStack(Material.EMERALD_BLOCK), new ItemStack(Material.OBSIDIAN) }).register();
+		
+		new SlimefunItem(NUKES, airstrike, "air-strike", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.FEATHER), new ItemStack(Material.REDSTONE_LAMP_OFF), new ItemStack(Material.FEATHER), new ItemStack(Material.ANVIL), nuke1, new ItemStack(Material.ANVIL), new ItemStack(Material.FEATHER), new ItemStack(Material.GOLD_BLOCK), new ItemStack(Material.FEATHER) }).register();
+		
+		if (config.getBoolean("nuke1.radioactive")) {
 			SlimefunItem.setRadioactive(nuke1);
 		}
 		
@@ -89,16 +99,6 @@ public class Main extends JavaPlugin {
 		if (config.getBoolean("nuke4.radioactive")) {
 			SlimefunItem.setRadioactive(nuke4);
 		}
-		
-		new SlimefunItem(NUKES, nuke1, "Nuke1", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.TINY_URANIUM, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.LEAD_INGOT, new ItemStack(Material.IRON_BLOCK), SlimefunItems.LEAD_INGOT }).register();
-			
-		new SlimefunItem(NUKES, nuke2, "Nuke2", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.SMALL_URANIUM, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.LEAD_INGOT, new ItemStack(Material.GOLD_BLOCK), SlimefunItems.LEAD_INGOT }).register();
-			
-		new SlimefunItem(NUKES, nuke3, "Nuke3", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { SlimefunItems.BILLON_INGOT, new ItemStack(Material.REDSTONE_LAMP_OFF), SlimefunItems.BILLON_INGOT, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.URANIUM, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.BILLON_INGOT, new ItemStack(Material.GOLD_BLOCK), SlimefunItems.BILLON_INGOT }).register();
-			
-		new SlimefunItem(NUKES, nuke4, "Nuke4", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.OBSIDIAN), new ItemStack(Material.REDSTONE_LAMP_OFF), new ItemStack(Material.OBSIDIAN), new ItemStack(Material.QUARTZ_BLOCK), SlimefunItems.NUCLEAR_REACTOR, new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.OBSIDIAN), new ItemStack(Material.EMERALD_BLOCK), new ItemStack(Material.OBSIDIAN) }).register();
-		
-		new SlimefunItem(NUKES, airstrike, "air-strike", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.FEATHER), new ItemStack(Material.REDSTONE_LAMP_OFF), new ItemStack(Material.FEATHER), new ItemStack(Material.ANVIL), nuke1, new ItemStack(Material.ANVIL), new ItemStack(Material.FEATHER), new ItemStack(Material.GOLD_BLOCK), new ItemStack(Material.FEATHER) }).register();
 		
 		Slimefun.registerResearch(new Research(777, "Unmeasurable nuclear power", 30), new ItemStack[] { nuke1, nuke2, nuke3, nuke4, airstrike });
 						

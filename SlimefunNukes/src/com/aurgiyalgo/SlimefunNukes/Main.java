@@ -18,7 +18,11 @@ import com.aurgiyalgo.SlimefunNukes.BlockListener;
 import com.aurgiyalgo.SlimefunNukes.Metrics;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,15 +61,16 @@ public class Main extends JavaPlugin {
 		getWorldGuard();
 		
 		plugin = this;
-		PluginUtils utils = new PluginUtils(this);
-		utils.setupConfig();
-		config = utils.getConfig();		
+		setupConfig("none", false);
 		
 		PluginManager pm = getServer().getPluginManager();
 		BlockListener listener = new BlockListener(this);
 		pm.registerEvents(listener, this);
 
+		getCommand("snversion").setExecutor(new Commands(this));
+		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this);
+		updateChecker("none", false);
 		
     	nuke1 = new CustomItem(new ItemStack(Material.TNT), config.getString("nuke1.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
     	nuke2 = new CustomItem(new ItemStack(Material.TNT), config.getString("nuke2.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
@@ -116,4 +121,37 @@ public class Main extends JavaPlugin {
 	 
 	    return (WorldGuardPlugin) worldGuard ;
 	}
+	
+	public static void setupConfig(String p, boolean command) {		
+		PluginUtils utils = new PluginUtils(plugin);
+		utils.setupConfig();
+		config = utils.getConfig();
+	}
+	
+	public static void updateChecker(String p, boolean cmd) {
+		
+		try {
+		       HttpURLConnection c = (HttpURLConnection)new URL("http://www.spigotmc.org/api/general.php").openConnection();
+		       c.setDoOutput(true);
+		       c.setRequestMethod("POST");
+		       c.getOutputStream().write(("key=98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4&resource=/slimefun-nuke.42670/").getBytes("UTF-8"));
+		       String oldVersion = plugin.getDescription().getVersion();
+		       String newVersion = new BufferedReader(new InputStreamReader(c.getInputStream())).readLine().replaceAll("[a-zA-Z ]", "");
+		       if (cmd) {
+	        	   plugin.getServer().getPlayer(p).sendMessage(prefix + ChatColor.WHITE + "You're running " + ChatColor.GRAY + "v" + oldVersion.toString() + ChatColor.WHITE + " of" + ChatColor.GREEN + " SlimefunNukes" + ChatColor.WHITE + ". The latest version on" + ChatColor.GOLD + " Spigot" + ChatColor.WHITE + " is" + ChatColor.GRAY + " v" + newVersion.toString());
+	           } else {
+	        	   System.out.println("[" + plugin.getName() + "] You're running v" + newVersion.toString() + " of Slimefun. The latest version on Spigot is v" + newVersion.toString());
+	           }
+		     }
+		     catch(Exception e) {
+		       if (cmd) {
+		    	   plugin.getServer().getPlayer(p).sendMessage(prefix + ChatColor.RED + "Error while checking plugin version");
+		       } else {
+		    	   System.out.println("[" + plugin.getName() + "] Error while checking the plugin version");
+		       }
+		       System.out.println(e);
+		     }
+		
+	}
+	
 }

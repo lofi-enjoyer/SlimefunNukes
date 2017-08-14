@@ -30,7 +30,7 @@ public class BlockListener implements Listener {
 	}
 	
 	Main plugin;
-	
+		
 	@SuppressWarnings("deprecation")
 	@EventHandler (priority = EventPriority.LOWEST)
 	public void onBlockPlace(BlockPlaceEvent event) { Player p = event.getPlayer();
@@ -479,7 +479,7 @@ public class BlockListener implements Listener {
 					
 					if (distance < radius * radius && !(hollow && distance < ((radius - 1) * (radius - 1)))) {
 						Location lo = new Location(explosionBlock.getWorld(), x, y, z);
-						if (lo.getBlock().getType() != Material.BEDROCK && !BlockStorage.hasBlockInfo(lo)) {
+						if (lo.getBlock().getType() != Material.BEDROCK && !BlockStorage.hasBlockInfo(lo) && lo.getBlock().getType() != Material.WATER) {
 							sphereBlocks.add(lo);
 						}
 					}
@@ -487,7 +487,5 @@ public class BlockListener implements Listener {
 			}
 		}
 		return sphereBlocks;
-	}
-	
-	
+	}	
 }

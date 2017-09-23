@@ -1,17 +1,13 @@
-config-version: 3
+config-version: 4
 prefix: '&7[&5SlimefunNuke&7] '
 radiation-message: '&cA nuke gave you radiation'
+custom-name-broadcast: true
 nuke1:
   name: '&7N&euk&7e &8(Low power)'
   messages:
-    player:
-      enabled: true
-      onPlace: '&cThe nuke has been placed. &4&lRun!'
-      onDetonation: '&cThe nuke has detonated'
-    server:
-      enabled: true
-      onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
-      onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
+    enabled: true
+    onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
+    onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
   delay: 15
   power: 25
   fire: false
@@ -21,14 +17,9 @@ nuke1:
 nuke2:
   name: '&7N&euk&7e &8(Medium power)'
   messages:
-    player:
-      enabled: true
-      onPlace: '&cThe nuke has been placed. &4&lRun!'
-      onDetonation: '&cThe nuke has detonated'
-    server:
-      enabled: true
-      onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
-      onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
+    enabled: true
+    onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
+    onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
   delay: 30
   power: 50
   fire: false
@@ -38,14 +29,9 @@ nuke2:
 nuke3:
   name: '&7N&euk&7e &8(High power)'
   messages:
-    player:
-      enabled: true
-      onPlace: '&cThe nuke has been placed. &4&lRun!'
-      onDetonation: '&cThe nuke has detonated'
-    server:
-      enabled: true
-      onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
-      onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
+    enabled: true
+    onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
+    onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
   delay: 45
   power: 90
   fire: true
@@ -55,14 +41,9 @@ nuke3:
 nuke4:
   name: '&7N&euk&7e &8(Huge power)'
   messages:
-    player:
-      enabled: true
-      onPlace: '&cThe nuke has been placed. &4&lRun!'
-      onDetonation: '&cThe nuke has detonated'
-    server:
-      enabled: true
-      onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
-      onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
+    enabled: true
+    onPlace: '&cA &4&lnuke &r&chas been placed by &b&l%player% &r&7(Power: &5%power%Ton&7)'
+    onDetonation: '&cA &4&lnuke &r&chas exploded on &6%coords% &con &5%world%'
   delay: 60
   power: 150
   fire: true
@@ -72,14 +53,9 @@ nuke4:
 air-strike:
   name: '&9Air Strike &bBeacon'
   messages:
-    player:
-      enabled: true
-      onCall: '&cYou called an &4&lAir Strike&r&c.'
-      onDetonation: '&cThe attack has been executed succesfully'
-    server:
-      enabled: true
-      onCall: '&cThe player &b&l%player% &r&ccalled an &4&lAir Strike'
-      onDetonation: '&cAn &4&lAir Strike &r&chas been executed on &6%coords% &con &5%world%'
+    enabled: true
+    onCall: '&cThe player &b&l%player% &r&ccalled an &4&lAir Strike'
+    onDetonation: '&cAn &4&lAir Strike &r&chas been executed on &6%coords% &con &5%world%'
   delay: 30
   power: 25
   fire: true

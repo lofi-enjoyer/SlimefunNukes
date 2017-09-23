@@ -1,8 +1,11 @@
 package com.aurgiyalgo.SlimefunNukes;
 
+import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -23,11 +26,17 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.MaterialData;
 
 public class Main extends JavaPlugin {
 
@@ -37,6 +46,7 @@ public class Main extends JavaPlugin {
 	public static ItemStack nuke2;
 	public static ItemStack nuke3;
 	public static ItemStack nuke4;
+	public static ItemStack nuke_key;
 	public static ItemStack airstrike;
 	public static JavaPlugin plugin;
 	public static Config config;
@@ -67,18 +77,32 @@ public class Main extends JavaPlugin {
 		BlockListener listener = new BlockListener(this);
 		pm.registerEvents(listener, this);
 
-		getCommand("snversion").setExecutor(new Commands(this));
+		getCommand("sfnukes").setExecutor(new Commands(this));
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this);
 		updateChecker("none", false);
 		
-    	nuke1 = new CustomItem(new ItemStack(Material.TNT), config.getString("nuke1.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
-    	nuke2 = new CustomItem(new ItemStack(Material.TNT), config.getString("nuke2.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
-    	nuke3 = new CustomItem(new ItemStack(Material.TNT), config.getString("nuke3.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
-    	nuke4 = new CustomItem(new ItemStack(Material.TNT), config.getString("nuke4.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
+		nuke1 = new CustomItem(new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal()), config.getString("nuke1.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
+    	nuke2 = new CustomItem(new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal()), config.getString("nuke2.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
+    	nuke3 = new CustomItem(new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal()), config.getString("nuke3.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
+    	nuke4 = new CustomItem(new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal()), config.getString("nuke4.name"), new String[] {"&cWARNING: &7Radioactive item", "&cHazmat Suit useless on explosion" });
     	airstrike = new CustomItem(new ItemStack(Material.REDSTONE_TORCH_ON), config.getString("air-strike.name"), new String[] {"&cCalls an &4&lAirStrike", "&cwhen you use it" });
+    	nuke_key = new CustomItem(new ItemStack(Material.TRIPWIRE_HOOK), "&6Nuke activation Key");
     	
-        Category NUKES = new Category(new CustomItem(new ItemStack(Material.TNT), "&aSlimeFun &eN&7uk&ees", new String[] { "", "&a > Click to open" }));
+    	SkullMeta meta = (SkullMeta) nuke1.getItemMeta();
+    	meta.setOwner("MHF_TNT2");
+    	nuke1.setItemMeta(meta);
+    	meta = (SkullMeta) nuke2.getItemMeta();
+    	meta.setOwner("MHF_TNT2");
+    	nuke2.setItemMeta(meta);
+    	meta = (SkullMeta) nuke3.getItemMeta();
+    	meta.setOwner("MHF_TNT2");
+    	nuke3.setItemMeta(meta);
+    	meta = (SkullMeta) nuke4.getItemMeta();
+    	meta.setOwner("MHF_TNT2");
+    	nuke4.setItemMeta(meta);
+    	
+        Category NUKES = new Category(new CustomItem(nuke1, "&aSlimeFun &eN&7uk&ees", new String[] { "", "&a > Click to open" }));
         
         new SlimefunItem(NUKES, nuke1, "Nuke1", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.LEAD_INGOT, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.TINY_URANIUM, new ItemStack(Material.REDSTONE_COMPARATOR), SlimefunItems.LEAD_INGOT, new ItemStack(Material.IRON_BLOCK), SlimefunItems.LEAD_INGOT }).register();
 			
@@ -90,6 +114,8 @@ public class Main extends JavaPlugin {
 		
 		new SlimefunItem(NUKES, airstrike, "air-strike", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.FEATHER), new ItemStack(Material.REDSTONE_LAMP_OFF), new ItemStack(Material.FEATHER), new ItemStack(Material.ANVIL), nuke1, new ItemStack(Material.ANVIL), new ItemStack(Material.FEATHER), new ItemStack(Material.GOLD_BLOCK), new ItemStack(Material.FEATHER) }).register();
 		
+		new SlimefunItem(NUKES, nuke_key, "NUKE-KEY", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.AIR), new ItemStack(Material.IRON_BARDING), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.STONE_BUTTON), new ItemStack(Material.AIR) }).register();
+				
 		if (config.getBoolean("nuke1.radioactive")) {
 			SlimefunItem.setRadioactive(nuke1);
 		}
@@ -140,7 +166,7 @@ public class Main extends JavaPlugin {
 		       if (cmd) {
 	        	   plugin.getServer().getPlayer(p).sendMessage(prefix + ChatColor.WHITE + "You're running " + ChatColor.GRAY + "v" + oldVersion.toString() + ChatColor.WHITE + " of" + ChatColor.GREEN + " SlimefunNukes" + ChatColor.WHITE + ". The latest version on" + ChatColor.GOLD + " Spigot" + ChatColor.WHITE + " is" + ChatColor.GRAY + " v" + newVersion.toString());
 	           } else {
-	        	   System.out.println("[" + plugin.getName() + "] You're running v" + newVersion.toString() + " of Slimefun. The latest version on Spigot is v" + newVersion.toString());
+	        	   System.out.println("[" + plugin.getName() + "] You're running v" + oldVersion.toString() + " of Slimefun. The latest version on Spigot is v" + newVersion.toString());
 	           }
 		     }
 		     catch(Exception e) {

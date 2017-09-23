@@ -1,12 +1,18 @@
 name: SlimefunNuke
 main: com.aurgiyalgo.SlimefunNukes.Main
-version: 1.9
+version: 2.0
 author: Joselu
 description: Slimefun Addon which adds a few nukes to your server
 depend: [CS-CoreLib, Slimefun]
 
 commands:
-  snversion:
-    usage: <command>
-    permission: sfnukes.version
-    description: Checks the most recent version of the plugin
+  sfnukes:
+    usage: <command> <argument>
+    description: Commands for Slimefun Nukes
+
+permissions:
+  sfnukes.reload:
+    description: Allows to reload the config files
+    default: op
+  sfnukes.version:
+    description: Allows u to check the plugin versions

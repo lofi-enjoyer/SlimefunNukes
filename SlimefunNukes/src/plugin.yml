@@ -1,6 +1,6 @@
 name: SlimefunNuke
 main: com.aurgiyalgo.SlimefunNukes.Main
-version: 2.0
+version: 2.1
 author: Joselu
 description: Slimefun Addon which adds a few nukes to your server
 depend: [CS-CoreLib, Slimefun]

@@ -1,42 +1,32 @@
 package com.aurgiyalgo.SlimefunNukes;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import com.aurgiyalgo.SlimefunNukes.BlockListener;
-import com.aurgiyalgo.SlimefunNukes.Metrics;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.SkullType;
-import org.bukkit.block.Skull;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.material.MaterialData;
 
 public class Main extends JavaPlugin {
 
@@ -54,6 +44,7 @@ public class Main extends JavaPlugin {
 	
 	
 	
+	@SuppressWarnings("deprecation")
 	public void onEnable() {
 		if (getServer().getPluginManager().isPluginEnabled("Slimefun")) {
 			System.out.println("[" + getName() + "] " + getName() + " v" + getDescription().getVersion() + " has been enabled!");
@@ -114,7 +105,7 @@ public class Main extends JavaPlugin {
 		
 		new SlimefunItem(NUKES, airstrike, "air-strike", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.FEATHER), new ItemStack(Material.REDSTONE_LAMP_OFF), new ItemStack(Material.FEATHER), new ItemStack(Material.ANVIL), nuke1, new ItemStack(Material.ANVIL), new ItemStack(Material.FEATHER), new ItemStack(Material.GOLD_BLOCK), new ItemStack(Material.FEATHER) }).register();
 		
-		new SlimefunItem(NUKES, nuke_key, "NUKE-KEY", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.AIR), new ItemStack(Material.IRON_BARDING), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.STONE_BUTTON), new ItemStack(Material.AIR) }).register();
+		new SlimefunItem(NUKES, nuke_key, "NUKE-KEY", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.AIR), new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.STONE_BUTTON), new ItemStack(Material.AIR) }).register();
 				
 		if (config.getBoolean("nuke1.radioactive")) {
 			SlimefunItem.setRadioactive(nuke1);

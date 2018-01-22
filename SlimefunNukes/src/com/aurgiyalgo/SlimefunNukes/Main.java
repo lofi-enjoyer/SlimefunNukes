@@ -105,7 +105,7 @@ public class Main extends JavaPlugin {
 		
 		new SlimefunItem(NUKES, airstrike, "air-strike", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.FEATHER), new ItemStack(Material.REDSTONE_LAMP_OFF), new ItemStack(Material.FEATHER), new ItemStack(Material.ANVIL), nuke1, new ItemStack(Material.ANVIL), new ItemStack(Material.FEATHER), new ItemStack(Material.GOLD_BLOCK), new ItemStack(Material.FEATHER) }).register();
 		
-		new SlimefunItem(NUKES, nuke_key, "NUKE-KEY", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { new ItemStack(Material.AIR), new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.STONE_BUTTON), new ItemStack(Material.AIR) }).register();
+		new SlimefunItem(NUKES, nuke_key, "NUKE-KEY", RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] { null, new ItemStack(Material.ENDER_PEARL), null, null, new ItemStack(Material.REDSTONE_BLOCK), null, null, new ItemStack(Material.STONE_BUTTON), null }).register();
 				
 		if (config.getBoolean("nuke1.radioactive")) {
 			SlimefunItem.setRadioactive(nuke1);

@@ -1,6 +1,7 @@
 # SlimefunNukes
 
-###Spigot official page: https://www.spigotmc.org/resources/slimefun-nuke.42670/
+Slimefun Addon which adds new weapons to the game
 
-###My Patreon page: https://patreon.com/user?u=7038982
+**Spigot** ➟ https://www.spigotmc.org/members/joselu.184132/
 
+**Support Discord server** ➟ https://discord.gg/NjtN58e

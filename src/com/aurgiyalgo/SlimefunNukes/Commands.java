@@ -31,20 +31,5 @@ public class Commands implements CommandExecutor{
 		default:
 			return true;
 		}
-//		if (cmd.getLabel().equalsIgnoreCase("sfnukes") && args[0].equalsIgnoreCase("version")) {
-//			if (sender.hasPermission("sfnukes.version")) {
-//                SlimefunNukes.updateChecker(sender.getName(), true);
-//			}
-//		}
-//		if (cmd.getLabel().equalsIgnoreCase("sfnukes") && args[0].equalsIgnoreCase("reload")) {
-//			if (sender.hasPermission("sfnukes.version")) {
-//				SlimefunNukes.config.reload();
-//				sender.sendMessage(SlimefunNukes.prefix + ChatColor.GREEN + "Config files reloaded");
-//			}			
-//		}
-//		if (cmd.getLabel().equalsIgnoreCase("sfnukes") && args[0].equalsIgnoreCase("")) {
-//			sender.sendMessage(ChatColor.RED + "Please insert a valid argument! (version/reload)");
-//		}
-		return true;
 	}
 }

@@ -1,4 +1,4 @@
-name: SlimefunNuke
+name: SlimefunNukes
 main: com.aurgiyalgo.SlimefunNukes.SlimefunNukes
 version: 2.1
 author: Joselu
@@ -7,12 +7,8 @@ depend: [CS-CoreLib, Slimefun]
 
 commands:
   sfnukes:
-    usage: <command> <argument>
-    description: Commands for Slimefun Nukes
+    permission: sfnukes.cmd
 
 permissions:
-  sfnukes.reload:
-    description: Allows to reload the config files
-    default: op
-  sfnukes.version:
-    description: Allows u to check the plugin versions
+  sfnukes.cmd:
+    default: true

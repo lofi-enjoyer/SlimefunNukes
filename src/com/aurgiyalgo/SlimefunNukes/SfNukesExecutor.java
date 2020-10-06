@@ -6,13 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Commands implements CommandExecutor{
-
-	SlimefunNukes plugin;
-	
-	public Commands(SlimefunNukes instance) {
-		
-	}
+public class SfNukesExecutor implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -21,7 +15,7 @@ public class Commands implements CommandExecutor{
 			return true;
 		}
 		if (args.length <= 1) {
-			sender.sendMessage(ChatColor.RED + "Not enough arguments! Use /sfnukes [version/reload]");
+			sender.sendMessage(ChatColor.RED + "Not enough arguments! Use /sfnukes version");
 			return true;
 		}
 		switch (args[0].toLowerCase()) {

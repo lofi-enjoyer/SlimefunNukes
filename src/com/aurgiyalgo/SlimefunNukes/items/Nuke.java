@@ -24,9 +24,14 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Nuke extends SlimefunItem implements Radioactive {
+	
+	private int radius;
+	private int blocks_per_iteration;
 
-	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, int blocksPerSecond) {
 		super(category, item, recipeType, recipe);
+		this.radius = radius;
+		this.blocks_per_iteration = blocksPerSecond / 2;
 	}
 
 	@Override
@@ -54,13 +59,12 @@ public class Nuke extends SlimefunItem implements Radioactive {
 					
 					@Override
 					public void run() {
-						final int BLOCKS_PER_ITERATION = 1000;
-						List<Location> sphereBlocks = SFNukesUtils.getSphereBlocks(blockLocation, 30);
+						List<Location> sphereBlocks = SFNukesUtils.getSphereBlocks(blockLocation, radius);
 						BukkitRunnable sphereRemoveBlocksTask = new BukkitRunnable() {
 							
 							@Override
 							public void run() {
-								if (sphereBlocks.size() < BLOCKS_PER_ITERATION) {
+								if (sphereBlocks.size() < blocks_per_iteration) {
 									for (Location l : sphereBlocks) {
 										if (l.getBlock().getType().equals(Material.BEDROCK)) continue;
 										if (l.getBlock().getType().equals(Material.AIR)) continue;
@@ -71,7 +75,7 @@ public class Nuke extends SlimefunItem implements Radioactive {
 									return;
 								}
 								List<Location> blocksRemoved = new ArrayList<>();
-								for (int i = 0; i < BLOCKS_PER_ITERATION; i++) {
+								for (int i = 0; i < blocks_per_iteration; i++) {
 									if (sphereBlocks.get(i).getBlock().getType().equals(Material.BEDROCK)) continue;
 									if (sphereBlocks.get(i).getBlock().getType().equals(Material.AIR)) continue;
 									if (BlockStorage.hasBlockInfo(sphereBlocks.get(i))) continue;

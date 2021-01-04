@@ -10,7 +10,7 @@ public class SfNukesExecutor implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if ((sender instanceof Player)) {
+		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.RED + "Only a player can do this!");
 			return true;
 		}

@@ -75,8 +75,8 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	}
 	
 	public static class Configuration {
-		public static int RADIUS = 32;
-		public static int BLOCKS_PER_SECOND = 10000;
+		public static int RADIUS = 16;
+		public static int BLOCKS_PER_SECOND = 50000;
 	}
 	
 	public static SlimefunNukes getInstance() {

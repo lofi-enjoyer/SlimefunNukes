@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 public class SFNukesUtils {
 	
@@ -13,12 +14,14 @@ public class SFNukesUtils {
 		int bY = explosionBlock.getBlockY();
 		int bZ = explosionBlock.getBlockZ();
 		Location tempLoc;
-		for (int y = bY + radius; y <= bY - radius; y--) {
+		for (int y = bY + radius; y >= bY - radius; y--) {
 			for (int x = bX - radius; x <= bX + radius; x++) {
-				for (int z = bZ - radius; z <= bZ + radius; z++) {					
-					double distance = ((bX - x) * (bX - x) + ((bZ - z) * (bZ - z)) + ((bY - y) * (bY - y)));					
+				for (int z = bZ - radius; z <= bZ + radius; z++) {
+					double distance = ((bX - x) * (bX - x) + ((bZ - z) * (bZ - z)) + ((bY - y) * (bY - y)));
 					if (distance > radius * radius) continue;
 					tempLoc = new Location(explosionBlock.getWorld(), x, y, z);
+					if (tempLoc.getBlock().getType().equals(Material.BEDROCK)) continue;
+					if (tempLoc.getBlock().getType().equals(Material.AIR)) continue;
 					sphereBlocks.add(tempLoc);
 				}
 			}

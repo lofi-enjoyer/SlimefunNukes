@@ -26,12 +26,13 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Nuke extends SlimefunItem implements Radioactive {
 	
 	private int radius;
-	private int blocks_per_iteration;
+	private int blocksPerIteration;
 
 	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, int blocksPerSecond) {
 		super(category, item, recipeType, recipe);
 		this.radius = radius;
-		this.blocks_per_iteration = blocksPerSecond / 2;
+		this.blocksPerIteration = blocksPerSecond / 2;
+		System.out.println(blocksPerIteration);
 	}
 
 	@Override
@@ -64,10 +65,11 @@ public class Nuke extends SlimefunItem implements Radioactive {
 							
 							@Override
 							public void run() {
-								if (sphereBlocks.size() < blocks_per_iteration) {
+								if (sphereBlocks.size() < blocksPerIteration) {
+									System.out.println("entra aca");
 									for (Location l : sphereBlocks) {
-										if (l.getBlock().getType().equals(Material.BEDROCK)) continue;
-										if (l.getBlock().getType().equals(Material.AIR)) continue;
+//										if (l.getBlock().getType().equals(Material.BEDROCK)) continue;
+//										if (l.getBlock().getType().equals(Material.AIR)) continue;
 										if (BlockStorage.hasBlockInfo(l)) continue;
 										l.getBlock().setType(Material.AIR);
 									}
@@ -75,12 +77,12 @@ public class Nuke extends SlimefunItem implements Radioactive {
 									return;
 								}
 								List<Location> blocksRemoved = new ArrayList<>();
-								for (int i = 0; i < blocks_per_iteration; i++) {
-									if (sphereBlocks.get(i).getBlock().getType().equals(Material.BEDROCK)) continue;
-									if (sphereBlocks.get(i).getBlock().getType().equals(Material.AIR)) continue;
+								for (int i = 0; i < blocksPerIteration; i++) {
+									blocksRemoved.add(sphereBlocks.get(i));
+//									if (sphereBlocks.get(i).getBlock().getType().equals(Material.BEDROCK)) continue;
+//									if (sphereBlocks.get(i).getBlock().getType().equals(Material.AIR)) continue;
 									if (BlockStorage.hasBlockInfo(sphereBlocks.get(i))) continue;
 									sphereBlocks.get(i).getBlock().setType(Material.AIR);
-									blocksRemoved.add(sphereBlocks.get(i));
 								}
 								sphereBlocks.removeAll(blocksRemoved);
 							}

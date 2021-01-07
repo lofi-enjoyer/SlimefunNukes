@@ -1,5 +1,10 @@
 package com.aurgiyalgo.SlimefunNukes;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +24,9 @@ import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.bstats.bukkit.Metrics;
 
 public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
+	
+	public static void main(String[] args) {
+	}
 	
 	public static final String SUPPORT_URL = "https://github.com/aurgiyalgo/SlimefunNukes/issues";
 	
@@ -40,34 +48,55 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		Category category = new Category(categoryId, categoryItem);
 		
 		//Nuke setup
-		SlimefunItemStack itemStack = new SlimefunItemStack("LITTLE_NUKE", Material.TNT, "&cNuclear warhead", "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
 		
 		ItemStack[] recipe = {
-				
 				SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO,
 			    SlimefunItems.REINFORCED_PLATE, SlimefunItems.PLUTONIUM,        SlimefunItems.REINFORCED_PLATE,
 			    SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO
 			};
 		
-		Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, Configuration.RADIUS, Configuration.BLOCKS_PER_SECOND);
-		sfNuke.register(this);
-		
-		//Research setup
 		NamespacedKey researchId = new NamespacedKey(this, "nukes_research");
 		Research research = new Research(researchId, 1341, "Now I am become Death, the destroyer of worlds", 50);
-		research.addItems(sfNuke);
+		
+		List<Map<?, ?>> nukeList = getConfig().getMapList("nukes");
+		
+		for (int i = 0; i < nukeList.size(); i++) {
+			Map<String, Object> defaultNuke = (Map<String, Object>) nukeList.get(i);
+			
+			String id = (String) defaultNuke.get("id");
+			String name = (String) defaultNuke.get("name");
+			int radius = (int) defaultNuke.get("radius");
+
+			SlimefunItemStack itemStack = new SlimefunItemStack(id, Material.TNT, name, "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
+			
+			Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, radius, Configuration.BLOCKS_PER_SECOND);
+			sfNuke.register(this);
+			
+			research.addItems(sfNuke);
+		}
+		
+		//Research setup
 		research.register();
 	}
 	
 	public void setupConfig() {
-		getConfig().addDefault("radius", Integer.valueOf(32));
+		List<Map<String, Object>> nukeList = new ArrayList<Map<String, Object>>();
+		Map<String, Object> defaultNuke1 = new HashMap<String, Object>();
+		defaultNuke1.put("id", "LITTLE_NUKE");
+		defaultNuke1.put("name", "&cNuclear warhead");
+		defaultNuke1.put("radius", 16);
+		Map<String, Object> defaultNuke2 = new HashMap<String, Object>();
+		defaultNuke2.put("id", "LITTLE_NUKE");
+		defaultNuke2.put("name", "&cNuclear warhead");
+		defaultNuke2.put("radius", 16);
+		nukeList.add(defaultNuke2);
+		
 		getConfig().addDefault("blocks-per-second", Integer.valueOf(10000));
+		getConfig().addDefault("nukes", nukeList);
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		
-		Configuration.RADIUS = getConfig().getInt("radius");
 		Configuration.BLOCKS_PER_SECOND = getConfig().getInt("blocks-per-second");
-		
 	}
 	
 	public void setupCommand() {
@@ -75,8 +104,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	}
 	
 	public static class Configuration {
-		public static int RADIUS = 16;
-		public static int BLOCKS_PER_SECOND = 50000;
+		public static int BLOCKS_PER_SECOND = 10000;
 	}
 	
 	public static SlimefunNukes getInstance() {

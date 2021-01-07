@@ -86,9 +86,9 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		defaultNuke1.put("name", "&cNuclear warhead");
 		defaultNuke1.put("radius", 16);
 		Map<String, Object> defaultNuke2 = new HashMap<String, Object>();
-		defaultNuke2.put("id", "LITTLE_NUKE");
-		defaultNuke2.put("name", "&cNuclear warhead");
-		defaultNuke2.put("radius", 16);
+		defaultNuke2.put("id", "MEDIUM_NUKE");
+		defaultNuke2.put("name", "&cMedium nuclear warhead");
+		defaultNuke2.put("radius", 30);
 		nukeList.add(defaultNuke2);
 		
 		getConfig().addDefault("blocks-per-second", Integer.valueOf(10000));

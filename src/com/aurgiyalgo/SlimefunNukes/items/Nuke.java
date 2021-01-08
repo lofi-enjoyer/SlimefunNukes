@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.aurgiyalgo.SlimefunNukes.SFNukesUtils;
 import com.aurgiyalgo.SlimefunNukes.SlimefunNukes;
+import com.aurgiyalgo.SlimefunNukes.SlimefunNukes.Configuration;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
@@ -26,12 +27,12 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Nuke extends SlimefunItem implements Radioactive {
 	
 	private int radius;
-	private int blocksPerSecond;
+	private boolean incendiary;
 
-	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, int blocksPerSecond) {
+	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, boolean incendiary) {
 		super(category, item, recipeType, recipe);
 		this.radius = radius;
-		this.blocksPerSecond = blocksPerSecond;
+		this.incendiary = incendiary;
 	}
 
 	@Override
@@ -46,8 +47,8 @@ public class Nuke extends SlimefunItem implements Radioactive {
 		Location blockLocation = event.getClickedBlock().get().getLocation().add(0.5, 0, 0.5);
 		TNTPrimed tnt = (TNTPrimed) blockLocation.getWorld().spawnEntity(blockLocation, EntityType.PRIMED_TNT);
 		tnt.setFuseTicks(10 * 20);
-		tnt.setIsIncendiary(true);
-		tnt.setYield(50f);
+		tnt.setIsIncendiary(incendiary);
+		tnt.setYield(radius);
 		BlockStorage.clearBlockInfo(blockLocation);
 		event.getClickedBlock().get().setType(Material.AIR);
 		
@@ -63,6 +64,7 @@ public class Nuke extends SlimefunItem implements Radioactive {
 						BlockStorage.clearBlockInfo(blockLocation);
 						AtomicReference<Integer> iteratorCount = new AtomicReference<Integer>();
 						iteratorCount.set(0);
+						int blocksPerSecond = Configuration.BLOCKS_PER_SECOND;
 						BukkitRunnable sphereRemoveBlocksTask = new BukkitRunnable() {
 							
 							@Override

@@ -7,15 +7,14 @@ import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.aurgiyalgo.SlimefunNukes.items.Nuke;
+import com.aurgiyalgo.SlimefunNukes.recipes.NukeRecipe;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -26,6 +25,7 @@ import me.mrCookieSlime.bstats.bukkit.Metrics;
 public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	
 	public static void main(String[] args) {
+		
 	}
 	
 	public static final String SUPPORT_URL = "https://github.com/aurgiyalgo/SlimefunNukes/issues";
@@ -40,7 +40,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		
 		new Metrics(instance, 8507);
 		
-		getServer().getPluginManager().registerEvents(new SFNukesListener(instance), instance);
+		getServer().getPluginManager().registerEvents(new SFNukesListener(this), this);
 		
 		//Category setup
 		NamespacedKey categoryId = new NamespacedKey(instance, "sfnukes_category");
@@ -49,11 +49,11 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		
 		//Nuke setup
 		
-		ItemStack[] recipe = {
-				SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO,
-			    SlimefunItems.REINFORCED_PLATE, SlimefunItems.PLUTONIUM,        SlimefunItems.REINFORCED_PLATE,
-			    SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO
-			};
+//		ItemStack[] recipe = {
+//				SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO,
+//			    SlimefunItems.REINFORCED_PLATE, SlimefunItems.PLUTONIUM,        SlimefunItems.REINFORCED_PLATE,
+//			    SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO
+//			};
 		
 		NamespacedKey researchId = new NamespacedKey(this, "nukes_research");
 		Research research = new Research(researchId, 1341, "Now I am become Death, the destroyer of worlds", 50);
@@ -61,18 +61,25 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		List<Map<?, ?>> nukeList = getConfig().getMapList("nukes");
 		
 		for (int i = 0; i < nukeList.size(); i++) {
-			Map<String, Object> defaultNuke = (Map<String, Object>) nukeList.get(i);
-			
-			String id = (String) defaultNuke.get("id");
-			String name = (String) defaultNuke.get("name");
-			int radius = (int) defaultNuke.get("radius");
+			try {
+				Map<String, Object> nuke = (Map<String, Object>) nukeList.get(i);
+				
+				String id = (String) nuke.get("id");
+				String name = (String) nuke.get("name");
+				int radius = (int) nuke.get("radius");
+				List<String> recipe = (List<String>) nuke.get("recipe");
+				boolean incendiary = (boolean) nuke.get("incendiary");
 
-			SlimefunItemStack itemStack = new SlimefunItemStack(id, Material.TNT, name, "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
-			
-			Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, radius, Configuration.BLOCKS_PER_SECOND);
-			sfNuke.register(this);
-			
-			research.addItems(sfNuke);
+				SlimefunItemStack itemStack = new SlimefunItemStack(id, Material.TNT, name, "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
+				
+				Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, new NukeRecipe(recipe.toArray(new String[recipe.size()])).getRecipe(), radius, incendiary);
+				sfNuke.register(this);
+				
+				research.addItems(sfNuke);
+			} catch (Exception e) {
+				getLogger().warning("Error while loading a nuke!");
+				getLogger().warning(e.getMessage());
+			}
 		}
 		
 		//Research setup
@@ -85,14 +92,29 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		defaultNuke1.put("id", "LITTLE_NUKE");
 		defaultNuke1.put("name", "&cNuclear warhead");
 		defaultNuke1.put("radius", 16);
+		defaultNuke1.put("incendiary", false);
+		defaultNuke1.put("recipe", new String[] {
+				"COAL_BLOCK", "IRON_BLOCK", "COAL_BLOCK",
+				"IRON_BLOCK", "URANIUM",    "IRON_BLOCK",
+				"COAL_BLOCK", "IRON_BLOCK", "COAL_BLOCK"
+			});
 		Map<String, Object> defaultNuke2 = new HashMap<String, Object>();
 		defaultNuke2.put("id", "MEDIUM_NUKE");
 		defaultNuke2.put("name", "&cMedium nuclear warhead");
-		defaultNuke2.put("radius", 30);
+		defaultNuke2.put("radius", 32);
+		defaultNuke2.put("incendiary", true);
+		defaultNuke2.put("recipe", new String[] {
+				"COAL_BLOCK",       "REINFORCED_PLATE", "COAL_BLOCK",
+				"REINFORCED_PLATE", "PLUTONIUM",          "REINFORCED_PLATE",
+				"COAL_BLOCK",       "REINFORCED_PLATE", "COAL_BLOCK"
+			});
+		
+		nukeList.add(defaultNuke1);
 		nukeList.add(defaultNuke2);
 		
 		getConfig().addDefault("blocks-per-second", Integer.valueOf(10000));
 		getConfig().addDefault("nukes", nukeList);
+		getConfig().addDefault("research-cost", Integer.valueOf(50));
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		

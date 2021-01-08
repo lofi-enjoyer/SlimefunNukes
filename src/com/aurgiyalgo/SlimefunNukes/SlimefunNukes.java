@@ -59,19 +59,19 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		Research research = new Research(researchId, 1341, "Now I am become Death, the destroyer of worlds", 50);
 		
 		List<Map<?, ?>> nukeList = getConfig().getMapList("nukes");
-		
-		for (int i = 0; i < nukeList.size(); i++) {
-			Map<String, Object> defaultNuke = (Map<String, Object>) nukeList.get(i);
-			
+
+		for (Map<?, ?> map : nukeList) {
+			Map<String, Object> defaultNuke = (Map<String, Object>) map;
+
 			String id = (String) defaultNuke.get("id");
 			String name = (String) defaultNuke.get("name");
 			int radius = (int) defaultNuke.get("radius");
 
 			SlimefunItemStack itemStack = new SlimefunItemStack(id, Material.TNT, name, "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
-			
+
 			Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, recipe, radius, Configuration.BLOCKS_PER_SECOND);
 			sfNuke.register(this);
-			
+
 			research.addItems(sfNuke);
 		}
 		
@@ -80,18 +80,18 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	}
 	
 	public void setupConfig() {
-		List<Map<String, Object>> nukeList = new ArrayList<Map<String, Object>>();
-		Map<String, Object> defaultNuke1 = new HashMap<String, Object>();
+		List<Map<String, Object>> nukeList = new ArrayList<>();
+		Map<String, Object> defaultNuke1 = new HashMap<>();
 		defaultNuke1.put("id", "LITTLE_NUKE");
 		defaultNuke1.put("name", "&cNuclear warhead");
 		defaultNuke1.put("radius", 16);
-		Map<String, Object> defaultNuke2 = new HashMap<String, Object>();
+		Map<String, Object> defaultNuke2 = new HashMap<>();
 		defaultNuke2.put("id", "MEDIUM_NUKE");
 		defaultNuke2.put("name", "&cMedium nuclear warhead");
 		defaultNuke2.put("radius", 30);
 		nukeList.add(defaultNuke2);
 		
-		getConfig().addDefault("blocks-per-second", Integer.valueOf(10000));
+		getConfig().addDefault("blocks-per-second", 10000);
 		getConfig().addDefault("nukes", nukeList);
 		getConfig().options().copyDefaults(true);
 		saveConfig();

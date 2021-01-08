@@ -18,12 +18,10 @@ public class SfNukesExecutor implements CommandExecutor{
 			sender.sendMessage(ChatColor.RED + "Not enough arguments! Use /sfnukes version");
 			return true;
 		}
-		switch (args[0].toLowerCase()) {
-		case "version":
-			sender.sendMessage(ChatColor.GREEN + "You\'re running " + ChatColor.GRAY + "v" + SlimefunNukes.getInstance().getDescription().getVersion());
-			return true;
-		default:
+		if ("version".equalsIgnoreCase(args[0])) {
+			sender.sendMessage(ChatColor.GREEN + "You're running " + ChatColor.GRAY + "v" + SlimefunNukes.getInstance().getDescription().getVersion());
 			return true;
 		}
+		return true;
 	}
 }

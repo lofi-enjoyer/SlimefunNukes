@@ -9,7 +9,7 @@ import org.bukkit.Material;
 public class SFNukesUtils {
 	
 	public static List<Location> getSphereBlocks(Location explosionBlock, int radius) {		
-		List<Location> sphereBlocks = new ArrayList<Location>();
+		List<Location> sphereBlocks = new ArrayList<>();
 		int bX = explosionBlock.getBlockX();
 		int bY = explosionBlock.getBlockY();
 		int bZ = explosionBlock.getBlockZ();

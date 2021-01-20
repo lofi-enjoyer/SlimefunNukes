@@ -4,6 +4,8 @@ version: 3.1
 author: Joselu
 description: Slimefun Addon which adds new explosives to your server
 depend: [CS-CoreLib, Slimefun]
+softdepend: [Towny, WorldGuard]
+api-version: 1.16
 
 commands:
   sfnukes:

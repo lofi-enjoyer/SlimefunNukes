@@ -27,12 +27,14 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Nuke extends SlimefunItem implements Radioactive {
 	
 	private int radius;
+	private int fuse;
 	private boolean incendiary;
 
-	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, boolean incendiary) {
+	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, int fuse, boolean incendiary) {
 		super(category, item, recipeType, recipe);
 		this.radius = radius;
 		this.incendiary = incendiary;
+		this.fuse = fuse;
 	}
 
 	@Override
@@ -46,10 +48,11 @@ public class Nuke extends SlimefunItem implements Radioactive {
 		event.cancel();
 		Location blockLocation = event.getClickedBlock().get().getLocation().add(0.5, 0, 0.5);
 		TNTPrimed tnt = (TNTPrimed) blockLocation.getWorld().spawnEntity(blockLocation, EntityType.PRIMED_TNT);
-		tnt.setFuseTicks(10 * 20);
+		tnt.setFuseTicks(fuse * 20);
 		tnt.setIsIncendiary(incendiary);
 		tnt.setYield(radius);
-		BlockStorage.clearBlockInfo(blockLocation);
+		tnt.setCustomName(getItemName());
+		tnt.setCustomNameVisible(true);
 		event.getClickedBlock().get().setType(Material.AIR);
 		
 		BukkitRunnable sphereShapeTask = new BukkitRunnable() {
@@ -60,8 +63,8 @@ public class Nuke extends SlimefunItem implements Radioactive {
 					
 					@Override
 					public void run() {
-						List<Location> sphereBlocks = SFNukesUtils.getSphereBlocks(blockLocation, radius);
-						BlockStorage.clearBlockInfo(blockLocation);
+						List<Location> sphereBlocks = SFNukesUtils.getSphereBlocks(tnt.getLocation(), radius);
+						BlockStorage.clearBlockInfo(event.getClickedBlock().get().getLocation());
 						AtomicReference<Integer> iteratorCount = new AtomicReference<Integer>();
 						iteratorCount.set(0);
 						int blocksPerSecond = Configuration.BLOCKS_PER_SECOND;
@@ -69,7 +72,7 @@ public class Nuke extends SlimefunItem implements Radioactive {
 							
 							@Override
 							public void run() {
-								if (iteratorCount.get() < blocksPerSecond) {
+								if (sphereBlocks.size() < blocksPerSecond) {
 									for (Location l : sphereBlocks) {
 										if (BlockStorage.hasBlockInfo(l)) continue;
 										l.getBlock().setType(Material.AIR);
@@ -91,7 +94,7 @@ public class Nuke extends SlimefunItem implements Radioactive {
 			}
 		};
 		
-		sphereShapeTask.runTaskLater(SlimefunNukes.getInstance(), 10 * 20);
+		sphereShapeTask.runTaskLater(SlimefunNukes.getInstance(), fuse * 20);
 	}
 
 	@Override

@@ -27,10 +27,13 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	public static void main(String[] args) {
 		
 	}
+
+	private static SlimefunNukes instance;
 	
 	public static final String SUPPORT_URL = "https://github.com/aurgiyalgo/SlimefunNukes/issues";
 	
-	private static SlimefunNukes instance;
+	private boolean usingTowny;
+	private boolean usingWG;
 	
 	public void onEnable() {
 		instance = this;
@@ -42,18 +45,13 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		
 		getServer().getPluginManager().registerEvents(new SFNukesListener(this), this);
 		
+		usingTowny = getServer().getPluginManager().isPluginEnabled("Towny");
+		usingWG = getServer().getPluginManager().isPluginEnabled("WorldGuard");
+		
 		//Category setup
 		NamespacedKey categoryId = new NamespacedKey(instance, "sfnukes_category");
 		CustomItem categoryItem = new CustomItem(Material.TNT, "&6Advanced Weaponry");
 		Category category = new Category(categoryId, categoryItem);
-		
-		//Nuke setup
-		
-//		ItemStack[] recipe = {
-//				SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO,
-//			    SlimefunItems.REINFORCED_PLATE, SlimefunItems.PLUTONIUM,        SlimefunItems.REINFORCED_PLATE,
-//			    SlimefunItems.CARBONADO,        SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO
-//			};
 		
 		NamespacedKey researchId = new NamespacedKey(this, "nukes_research");
 		Research research = new Research(researchId, 1341, "Now I am become Death, the destroyer of worlds", 50);
@@ -67,12 +65,13 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 				String id = (String) nuke.get("id");
 				String name = (String) nuke.get("name");
 				int radius = (int) nuke.get("radius");
+				int fuse = (int) nuke.get("fuse");
 				List<String> recipe = (List<String>) nuke.get("recipe");
 				boolean incendiary = (boolean) nuke.get("incendiary");
 
 				SlimefunItemStack itemStack = new SlimefunItemStack(id, Material.TNT, name, "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
 				
-				Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, new NukeRecipe(recipe.toArray(new String[recipe.size()])).getRecipe(), radius, incendiary);
+				Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, new NukeRecipe(recipe.toArray(new String[recipe.size()])).getRecipe(), radius, fuse, incendiary);
 				sfNuke.register(this);
 				
 				research.addItems(sfNuke);
@@ -92,6 +91,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		defaultNuke1.put("id", "LITTLE_NUKE");
 		defaultNuke1.put("name", "&cNuclear warhead");
 		defaultNuke1.put("radius", 16);
+		defaultNuke1.put("fuse", 30);
 		defaultNuke1.put("incendiary", false);
 		defaultNuke1.put("recipe", new String[] {
 				"COAL_BLOCK", "IRON_BLOCK", "COAL_BLOCK",
@@ -102,6 +102,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		defaultNuke2.put("id", "MEDIUM_NUKE");
 		defaultNuke2.put("name", "&cMedium nuclear warhead");
 		defaultNuke2.put("radius", 32);
+		defaultNuke1.put("fuse", 45);
 		defaultNuke2.put("incendiary", true);
 		defaultNuke2.put("recipe", new String[] {
 				"COAL_BLOCK",       "REINFORCED_PLATE", "COAL_BLOCK",
@@ -115,6 +116,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		getConfig().addDefault("blocks-per-second", Integer.valueOf(10000));
 		getConfig().addDefault("nukes", nukeList);
 		getConfig().addDefault("research-cost", Integer.valueOf(50));
+		getConfig().addDefault("research-cost", Integer.valueOf(50));
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		
@@ -127,6 +129,14 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	
 	public static class Configuration {
 		public static int BLOCKS_PER_SECOND = 10000;
+	}
+	
+	public boolean isUsingTowny() {
+		return usingTowny;
+	}
+
+	public boolean isUsingWG() {
+		return usingWG;
 	}
 	
 	public static SlimefunNukes getInstance() {

@@ -10,7 +10,7 @@ import org.bukkit.Material;
 public class SFNukesUtils {
 	
 	public static List<Location> getSphereBlocks(Location explosionBlock, int radius) {		
-		List<Location> sphereBlocks = new ArrayList<Location>();
+		List<Location> sphereBlocks = new ArrayList<>();
 		int bX = explosionBlock.getBlockX();
 		int bY = explosionBlock.getBlockY();
 		int bZ = explosionBlock.getBlockZ();
@@ -18,7 +18,6 @@ public class SFNukesUtils {
 //		boolean usingWG = SlimefunNukes.getInstance().isUsingWG();
 		Location tempLoc = new Location(explosionBlock.getWorld(), 0, 0, 0);
 		Random random = new Random(System.currentTimeMillis());
-		long timer = System.nanoTime();
 		for (int y = bY + radius; y >= bY - radius; y--) {
 			for (int x = bX - radius; x <= bX + radius; x++) {
 				for (int z = bZ - radius; z <= bZ + radius; z++) {
@@ -34,7 +33,6 @@ public class SFNukesUtils {
 				}
 			}
 		}
-		System.out.println(System.nanoTime() - timer);
 		return sphereBlocks;
 	}
 

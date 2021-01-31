@@ -26,9 +26,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Nuke extends SlimefunItem implements Radioactive {
 	
-	private int radius;
-	private int fuse;
-	private boolean incendiary;
+	private final int radius;
+	private final int fuse;
+	private final boolean incendiary;
 
 	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, int fuse, boolean incendiary) {
 		super(category, item, recipeType, recipe);
@@ -59,38 +59,34 @@ public class Nuke extends SlimefunItem implements Radioactive {
 			
 			@Override
 			public void run() {
-				Thread t = new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
-						List<Location> sphereBlocks = SFNukesUtils.getSphereBlocks(tnt.getLocation(), radius);
-						BlockStorage.clearBlockInfo(event.getClickedBlock().get().getLocation());
-						AtomicReference<Integer> iteratorCount = new AtomicReference<Integer>();
-						iteratorCount.set(0);
-						int blocksPerSecond = Configuration.BLOCKS_PER_SECOND;
-						BukkitRunnable sphereRemoveBlocksTask = new BukkitRunnable() {
-							
-							@Override
-							public void run() {
-								if (sphereBlocks.size() < blocksPerSecond) {
-									for (Location l : sphereBlocks) {
-										if (BlockStorage.hasBlockInfo(l)) continue;
-										l.getBlock().setType(Material.AIR);
-									}
-									cancel();
-									return;
+				Thread t = new Thread(() -> {
+					List<Location> sphereBlocks = SFNukesUtils.getSphereBlocks(tnt.getLocation(), radius);
+					BlockStorage.clearBlockInfo(event.getClickedBlock().get().getLocation());
+					AtomicReference<Integer> iteratorCount = new AtomicReference<Integer>();
+					iteratorCount.set(0);
+					int blocksPerSecond = Configuration.BLOCKS_PER_SECOND;
+					BukkitRunnable sphereRemoveBlocksTask = new BukkitRunnable() {
+						
+						@Override
+						public void run() {
+							if (sphereBlocks.size() < blocksPerSecond) {
+								for (Location l : sphereBlocks) {
+									if (BlockStorage.hasBlockInfo(l)) continue;
+									l.getBlock().setType(Material.AIR);
 								}
-								for (int i = 0; i < blocksPerSecond; i++) {
-									if (BlockStorage.hasBlockInfo(sphereBlocks.get(i + iteratorCount.get()))) continue;
-									sphereBlocks.get(i + iteratorCount.get()).getBlock().setType(Material.AIR);
-								}
-								iteratorCount.set(iteratorCount.get() + blocksPerSecond);
+								cancel();
+								return;
 							}
-						};
-						sphereRemoveBlocksTask.runTaskTimer(SlimefunNukes.getInstance(), 0, 20);
-					}
+							for (int i = 0; i < blocksPerSecond; i++) {
+								if (BlockStorage.hasBlockInfo(sphereBlocks.get(i + iteratorCount.get()))) continue;
+								sphereBlocks.get(i + iteratorCount.get()).getBlock().setType(Material.AIR);
+							}
+							iteratorCount.set(iteratorCount.get() + blocksPerSecond);
+						}
+					};
+					sphereRemoveBlocksTask.runTaskTimer(SlimefunNukes.getInstance(), 0, 20);
 				});
-				t.run();
+				t.start();
 			}
 		};
 		

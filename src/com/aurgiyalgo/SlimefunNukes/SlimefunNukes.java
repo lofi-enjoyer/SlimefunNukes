@@ -86,8 +86,8 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	}
 	
 	public void setupConfig() {
-		List<Map<String, Object>> nukeList = new ArrayList<Map<String, Object>>();
-		Map<String, Object> defaultNuke1 = new HashMap<String, Object>();
+		List<Map<String, Object>> nukeList = new ArrayList<>();
+		Map<String, Object> defaultNuke1 = new HashMap<>();
 		defaultNuke1.put("id", "LITTLE_NUKE");
 		defaultNuke1.put("name", "&cNuclear warhead");
 		defaultNuke1.put("radius", 16);
@@ -98,7 +98,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 				"IRON_BLOCK", "URANIUM",    "IRON_BLOCK",
 				"COAL_BLOCK", "IRON_BLOCK", "COAL_BLOCK"
 			});
-		Map<String, Object> defaultNuke2 = new HashMap<String, Object>();
+		Map<String, Object> defaultNuke2 = new HashMap<>();
 		defaultNuke2.put("id", "MEDIUM_NUKE");
 		defaultNuke2.put("name", "&cMedium nuclear warhead");
 		defaultNuke2.put("radius", 32);
@@ -113,10 +113,10 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		nukeList.add(defaultNuke1);
 		nukeList.add(defaultNuke2);
 		
-		getConfig().addDefault("blocks-per-second", Integer.valueOf(10000));
+		getConfig().addDefault("blocks-per-second", 10000);
 		getConfig().addDefault("nukes", nukeList);
-		getConfig().addDefault("research-cost", Integer.valueOf(50));
-		getConfig().addDefault("research-cost", Integer.valueOf(50));
+		getConfig().addDefault("research-cost", 50);
+		getConfig().addDefault("research-cost", 50);
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		

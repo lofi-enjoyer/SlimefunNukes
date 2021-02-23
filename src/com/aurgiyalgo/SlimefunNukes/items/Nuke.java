@@ -69,7 +69,7 @@ public class Nuke extends SlimefunItem implements Radioactive {
 						
 						@Override
 						public void run() {
-							if (sphereBlocks.size() < blocksPerSecond) {
+							if (sphereBlocks.size() - iteratorCount.get() < blocksPerSecond) {
 								for (Location l : sphereBlocks) {
 									if (BlockStorage.hasBlockInfo(l)) continue;
 									l.getBlock().setType(Material.AIR);

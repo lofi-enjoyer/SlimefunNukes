@@ -3,7 +3,7 @@ main: com.aurgiyalgo.SlimefunNukes.SlimefunNukes
 version: 3.2
 author: Joselu
 description: Slimefun Addon which adds new explosives to your server
-depend: [CS-CoreLib, Slimefun]
+depend: [Slimefun]
 softdepend: [Towny, WorldGuard]
 api-version: 1.16
 

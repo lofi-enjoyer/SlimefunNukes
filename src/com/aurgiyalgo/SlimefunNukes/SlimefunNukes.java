@@ -20,7 +20,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.bstats.bukkit.Metrics;
 
 public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	
@@ -40,7 +39,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		
 		setupConfig();
 		setupCommand();
-		
+
 		new Metrics(instance, 8507);
 		
 		getServer().getPluginManager().registerEvents(new SFNukesListener(this), this);
@@ -57,27 +56,26 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		Research research = new Research(researchId, 1341, "Now I am become Death, the destroyer of worlds", 50);
 		
 		List<Map<?, ?>> nukeList = getConfig().getMapList("nukes");
-		
-		for (int i = 0; i < nukeList.size(); i++) {
+
+		for (Map<?, ?> nuke : nukeList) {
 			try {
-				Map<String, Object> nuke = (Map<String, Object>) nukeList.get(i);
-				
 				String id = (String) nuke.get("id");
 				String name = (String) nuke.get("name");
 				int radius = (int) nuke.get("radius");
 				int fuse = (int) nuke.get("fuse");
-				List<String> recipe = (List<String>) nuke.get("recipe");
+				System.out.println(nuke.get("recipe"));
+				String[] recipe = (String[]) nuke.get("recipe");
 				boolean incendiary = (boolean) nuke.get("incendiary");
 
 				SlimefunItemStack itemStack = new SlimefunItemStack(id, Material.TNT, name, "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
-				
-				Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, new NukeRecipe(recipe.toArray(new String[recipe.size()])).getRecipe(), radius, fuse, incendiary);
+
+				Nuke sfNuke = new Nuke(category, itemStack, RecipeType.ENHANCED_CRAFTING_TABLE, new NukeRecipe(recipe).getRecipe(), radius, fuse, incendiary);
 				sfNuke.register(this);
-				
+
 				research.addItems(sfNuke);
 			} catch (Exception e) {
 				getLogger().warning("Error while loading a nuke!");
-				getLogger().warning(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		
@@ -102,7 +100,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		defaultNuke2.put("id", "MEDIUM_NUKE");
 		defaultNuke2.put("name", "&cMedium nuclear warhead");
 		defaultNuke2.put("radius", 32);
-		defaultNuke1.put("fuse", 45);
+		defaultNuke2.put("fuse", 45);
 		defaultNuke2.put("incendiary", true);
 		defaultNuke2.put("recipe", new String[] {
 				"COAL_BLOCK",       "REINFORCED_PLATE", "COAL_BLOCK",

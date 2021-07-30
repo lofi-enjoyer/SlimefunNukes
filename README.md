@@ -10,6 +10,7 @@ SlimefunNukes allows you to craft, place and detonate a variety of weapons and e
     <li>
       <a href="#how-to-use">How to use</a>
       <ul>
+        <li><a href="#for-players">For players</a></li>
         <li><a href="#for-server-owners">For server owners</a></li>
       </ul>
     </li>
@@ -24,14 +25,17 @@ SlimefunNukes allows you to craft, place and detonate a variety of weapons and e
 
 ## How to use 🎮 
 
-It adds a new category on Slimefun Guide (/sf guide) which contains the objects added by the plugin. At this moment only the Nuclear warheads are available, as the option to add them through configuration files. When a nuke explodes it creates a spherical crater with the specified radius, along with the explosion.
+<div id="for-players"></div>
+
+### For players
+
+* [Guide for players](https://github.com/aurgiyalgo/SlimefunNukes/wiki/Guide-for-players)
 
 <div id="for-server-owners"></div>
 
 ### For server owners 
 
-* [Permissions](https://github.com/aurgiyalgo/SlimefunNukes/wiki/permissions)
-* [Commands](https://github.com/aurgiyalgo/SlimefunNukes/wiki/commands)
+_For information about the plugin, check the [Wiki](https://github.com/aurgiyalgo/SlimefunNukes/wiki)_
 
 <div id="building"></div>
 

@@ -63,7 +63,6 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 				String name = (String) nuke.get("name");
 				int radius = (int) nuke.get("radius");
 				int fuse = (int) nuke.get("fuse");
-				System.out.println(nuke.get("recipe"));
 				String[] recipe = (String[]) nuke.get("recipe");
 				boolean incendiary = (boolean) nuke.get("incendiary");
 

@@ -1,0 +1,33 @@
+blocks-per-second: 10000
+nukes:
+  - fuse: 30
+    incendiary: false
+    name: '&cNuclear warhead'
+    recipe:
+      - COAL_BLOCK
+      - IRON_BLOCK
+      - COAL_BLOCK
+      - IRON_BLOCK
+      - URANIUM
+      - IRON_BLOCK
+      - COAL_BLOCK
+      - IRON_BLOCK
+      - COAL_BLOCK
+    id: LITTLE_NUKE
+    radius: 16
+  - fuse: 45
+    incendiary: true
+    name: '&cMedium nuclear warhead'
+    recipe:
+      - COAL_BLOCK
+      - REINFORCED_PLATE
+      - COAL_BLOCK
+      - REINFORCED_PLATE
+      - PLUTONIUM
+      - REINFORCED_PLATE
+      - COAL_BLOCK
+      - REINFORCED_PLATE
+      - COAL_BLOCK
+    id: MEDIUM_NUKE
+    radius: 32
+research-cost: 50

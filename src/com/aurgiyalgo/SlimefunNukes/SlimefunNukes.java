@@ -1,12 +1,15 @@
 package com.aurgiyalgo.SlimefunNukes;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.aurgiyalgo.SlimefunNukes.items.Nuke;
@@ -34,6 +37,8 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	private boolean usingTowny;
 	private boolean usingWG;
 	
+	private YamlConfiguration configuration;
+	
 	public void onEnable() {
 		instance = this;
 		
@@ -55,7 +60,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		NamespacedKey researchId = new NamespacedKey(this, "nukes_research");
 		Research research = new Research(researchId, 1341, "Now I am become Death, the destroyer of worlds", 50);
 		
-		List<Map<?, ?>> nukeList = getConfig().getMapList("nukes");
+		List<Map<?, ?>> nukeList = configuration.getMapList("nukes");
 
 		for (Map<?, ?> nuke : nukeList) {
 			try {
@@ -63,7 +68,7 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 				String name = (String) nuke.get("name");
 				int radius = (int) nuke.get("radius");
 				int fuse = (int) nuke.get("fuse");
-				String[] recipe = (String[]) nuke.get("recipe");
+				List<String> recipe = (List<String>) nuke.get("recipe");
 				boolean incendiary = (boolean) nuke.get("incendiary");
 
 				SlimefunItemStack itemStack = new SlimefunItemStack(id, Material.TNT, name, "", LoreBuilder.radioactive(Radioactivity.LOW), LoreBuilder.HAZMAT_SUIT_REQUIRED);
@@ -83,41 +88,14 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	}
 	
 	public void setupConfig() {
-		List<Map<String, Object>> nukeList = new ArrayList<>();
-		Map<String, Object> defaultNuke1 = new HashMap<>();
-		defaultNuke1.put("id", "LITTLE_NUKE");
-		defaultNuke1.put("name", "&cNuclear warhead");
-		defaultNuke1.put("radius", 16);
-		defaultNuke1.put("fuse", 30);
-		defaultNuke1.put("incendiary", false);
-		defaultNuke1.put("recipe", new String[] {
-				"COAL_BLOCK", "IRON_BLOCK", "COAL_BLOCK",
-				"IRON_BLOCK", "URANIUM",    "IRON_BLOCK",
-				"COAL_BLOCK", "IRON_BLOCK", "COAL_BLOCK"
-			});
-		Map<String, Object> defaultNuke2 = new HashMap<>();
-		defaultNuke2.put("id", "MEDIUM_NUKE");
-		defaultNuke2.put("name", "&cMedium nuclear warhead");
-		defaultNuke2.put("radius", 32);
-		defaultNuke2.put("fuse", 45);
-		defaultNuke2.put("incendiary", true);
-		defaultNuke2.put("recipe", new String[] {
-				"COAL_BLOCK",       "REINFORCED_PLATE", "COAL_BLOCK",
-				"REINFORCED_PLATE", "PLUTONIUM",          "REINFORCED_PLATE",
-				"COAL_BLOCK",       "REINFORCED_PLATE", "COAL_BLOCK"
-			});
+		File configFile = new File(getDataFolder(), "config.yml");
+		if (!configFile.exists()) {
+			saveResource("config.yml", false);
+		}
+
+		configuration = YamlConfiguration.loadConfiguration(configFile);
 		
-		nukeList.add(defaultNuke1);
-		nukeList.add(defaultNuke2);
-		
-		getConfig().addDefault("blocks-per-second", 10000);
-		getConfig().addDefault("nukes", nukeList);
-		getConfig().addDefault("research-cost", 50);
-		getConfig().addDefault("research-cost", 50);
-		getConfig().options().copyDefaults(true);
-		saveConfig();
-		
-		Configuration.BLOCKS_PER_SECOND = getConfig().getInt("blocks-per-second");
+		Configuration.BLOCKS_PER_SECOND = configuration.getInt("blocks-per-second");
 	}
 	
 	public void setupCommand() {

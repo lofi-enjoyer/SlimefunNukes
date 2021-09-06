@@ -1,9 +1,8 @@
 package com.aurgiyalgo.SlimefunNukes.recipes;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 import java.util.List;
 
@@ -18,8 +17,8 @@ public class NukeRecipe {
 				recipe[i] = null;
 				continue;
 			}
-			if (SlimefunItem.getByID(recipeInput.get(i)) != null) {
-				recipe[i] = SlimefunItem.getByID(recipeInput.get(i)).getItem();
+			if (SlimefunItem.getById(recipeInput.get(i)) != null) {
+				recipe[i] = SlimefunItem.getById(recipeInput.get(i)).getItem();
 				continue;
 			}
 			if (Material.getMaterial(recipeInput.get(i)) != null) {

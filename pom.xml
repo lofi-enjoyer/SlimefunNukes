@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.aurgiyalgo.SlimefunNukes</groupId>
 	<artifactId>SlimefunNukes</artifactId>
-	<version>3.2.4</version>
+	<version>3.2.5</version>
 	<name>SlimefunNukes</name>
 
 	<repositories>
@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>com.github.Slimefun</groupId>
 			<artifactId>Slimefun4</artifactId>
-			<version>RC-26</version>
+			<version>RC-27</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

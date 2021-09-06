@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -17,12 +22,7 @@ import com.aurgiyalgo.SlimefunNukes.recipes.NukeRecipe;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
-import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 
 public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 	
@@ -54,8 +54,8 @@ public class SlimefunNukes extends JavaPlugin implements SlimefunAddon {
 		
 		//Category setup
 		NamespacedKey categoryId = new NamespacedKey(instance, "sfnukes_category");
-		CustomItem categoryItem = new CustomItem(Material.TNT, "&6Advanced Weaponry");
-		Category category = new Category(categoryId, categoryItem);
+		CustomItemStack categoryItem = new CustomItemStack(Material.TNT, "&6Advanced Weaponry");
+		ItemGroup category = new ItemGroup(categoryId, categoryItem);
 		
 		NamespacedKey researchId = new NamespacedKey(this, "nukes_research");
 		Research research = new Research(researchId, 1341, "Now I am become Death, the destroyer of worlds", 50);

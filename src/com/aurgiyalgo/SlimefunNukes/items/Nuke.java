@@ -3,6 +3,10 @@ package com.aurgiyalgo.SlimefunNukes.items;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -18,11 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Nuke extends SlimefunItem implements Radioactive {
 	
@@ -30,7 +30,7 @@ public class Nuke extends SlimefunItem implements Radioactive {
 	private final int fuse;
 	private final boolean incendiary;
 
-	public Nuke(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, int fuse, boolean incendiary) {
+	public Nuke(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int radius, int fuse, boolean incendiary) {
 		super(category, item, recipeType, recipe);
 		this.radius = radius;
 		this.incendiary = incendiary;
